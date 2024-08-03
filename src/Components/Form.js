@@ -23,7 +23,7 @@ const Form = () => {
     setIsAdded(false);
   };
 
-  const handleAdd = async () => {
+  const handleAdd = async() => {
     const formData = {
       Counsellor,
       Candidate,
@@ -33,51 +33,29 @@ const Form = () => {
       DikshaName1: Status === 'Recommended' ? DikshaName1 : '',
       DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
     };
-  
+
     console.log(formData);
-  
-    // Replace with your Google Sheets API key and Sheet ID
-    const API_KEY = 'AIzaSyBThO4G34QTynT0kob7UNuNt_1Ka5u7HkM';
-    const SHEET_ID = '1em3ZvgcHXCjeqLtKTllEUeu4sKhXb0zDX2beq51n31E';
-    const RANGE = 'Sheet1!A1:G1'; // Adjust range as needed
-  
-    try {
-      // Construct the API request URL
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}:append?valueInputOption=RAW&key=${API_KEY}`;
-  
-      const response = await fetch(url, {
+    
+
+ await fetch('https://script.google.com/macros/s/AKfycbyDEy-Idf7TuuaxHV823wSjy0GzQZMeThPDgTVl34Wyc9v8M4KWYhptUYDD2bHQwhMvig/exec', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        mode: "no-cors",
         body: JSON.stringify({
-          range: RANGE,
-          majorDimension: 'ROWS',
-          values: [
-            [
-              formData.Counsellor,
-              formData.Candidate,
-              formData.Status,
-              formData.Reason,
-              formData.IDCcertificate,
-              formData.DikshaName1,
-              formData.DikshaName2,
-            ],
-          ],
+          formData
         }),
-      });
-  
-      if (response.ok) {
+        mode: "no-cors",
+      }).then(response => {
+        if (response.ok) {
         toast.success('Data added successfully');
-        resetFields(); // Reset fields on successful submission
-        setIsAdded(true);
-      } else {
-        toast.error('Failed to add data');
-      }
-    } catch (error) {
-      toast.error('Error: ' + error.message);
-    }
+        } else {
+          toast.error('Failed to add data');
+        }
+      }).catch(error => {
+        toast.error('Error:', error);
+      });
+      
   };
 
   const handleSubmit = () => {
