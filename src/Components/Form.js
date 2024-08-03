@@ -23,7 +23,7 @@ const Form = () => {
     setIsAdded(false);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async() => {
     const formData = {
       counsellorName,
       candidateName,
@@ -37,23 +37,24 @@ const Form = () => {
     console.log(formData);
     
 
-    fetch('https://script.google.com/macros/s/AKfycbw2RUKVevo_vfs06pZkoWyDQ00xrZAFhPqtYMA3w1C-2W-OgS9kEg5hiI_BSpOs4tX5Pw/exec', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    }).then(response => {
-      if (response.ok) {
+ await fetch('https://cors-anywhere.https://user-form-teal.vercel.app//https://script.google.com/macros/s/AKfycbzOzyOAOy7u_8kKKayFgTcWPhYWtOJbI_NwyFt79wPMC_SthK5dNiGJI3523COWiPqeCA/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          formData
+        })
+      }).then(response => {
+        if (response.ok) {
         toast.success('Data added successfully');
-        resetFields();
-        setCandidateIndex(candidateIndex + 1);
-        setIsAdded(true);
-      } else {
-        toast.error('Failed to add data');
-      }
-    }).catch(error => {
-      console.error('Error!', error.message);
-      toast.error('Error! Failed to fetch data');
-    });
+        } else {
+          toast.error('Failed to add data');
+        }
+      }).catch(error => {
+        toast.error('Error:', error);
+      });
+      
   };
 
   const handleSubmit = () => {
