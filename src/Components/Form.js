@@ -3,58 +3,81 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Form = () => {
-  const [counsellorName, setCounsellorName] = useState('');
-  const [candidateName, setCandidateName] = useState('');
-  const [status, setStatus] = useState('');
-  const [reasonForHold, setReasonForHold] = useState('');
-  const [idcCertificate, setIdcCertificate] = useState('');
-  const [dikshaName1, setDikshaName1] = useState('');
-  const [dikshaName2, setDikshaName2] = useState('');
+  const [Counsellor, setCounsellor] = useState('');
+  const [Candidate, setCandidate] = useState('');
+  const [Status, setStatus] = useState('');
+  const [Reason, setReason] = useState('');
+  const [IDCcertificate, setIDCcertificate] = useState('');
+  const [DikshaName1, setDikshaName1] = useState('');
+  const [DikshaName2, setDikshaName2] = useState('');
   const [candidateIndex, setCandidateIndex] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
 
   const resetFields = () => {
-    setCandidateName('');
+    setCandidate('');
     setStatus('');
-    setReasonForHold('');
-    setIdcCertificate('');
+    setReason('');
+    setIDCcertificate('');
     setDikshaName1('');
     setDikshaName2('');
     setIsAdded(false);
   };
 
-  const handleAdd = async() => {
+  const handleAdd = async () => {
     const formData = {
-      counsellorName,
-      candidateName,
-      status,
-      reasonForHold: status === 'Hold' ? reasonForHold : '',
-      idcCertificate: status === 'Recommended' ? idcCertificate : '',
-      dikshaName1: status === 'Recommended' ? dikshaName1 : '',
-      dikshaName2: status === 'Recommended' ? dikshaName2 : '',
+      Counsellor,
+      Candidate,
+      Status,
+      Reason: Status === 'Hold' ? Reason : '',
+      IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
+      DikshaName1: Status === 'Recommended' ? DikshaName1 : '',
+      DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
     };
-
+  
     console.log(formData);
-    
-
- await fetch('https://cors-anywhere.https://user-form-teal.vercel.app//https://script.google.com/macros/s/AKfycbzOzyOAOy7u_8kKKayFgTcWPhYWtOJbI_NwyFt79wPMC_SthK5dNiGJI3523COWiPqeCA/exec', {
+  
+    // Replace with your Google Sheets API key and Sheet ID
+    const API_KEY = 'AIzaSyBThO4G34QTynT0kob7UNuNt_1Ka5u7HkM';
+    const SHEET_ID = '1em3ZvgcHXCjeqLtKTllEUeu4sKhXb0zDX2beq51n31E';
+    const RANGE = 'Sheet1!A1:G1'; // Adjust range as needed
+  
+    try {
+      // Construct the API request URL
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}:append?valueInputOption=RAW&key=${API_KEY}`;
+  
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
+        mode: "no-cors",
         body: JSON.stringify({
-          formData
-        })
-      }).then(response => {
-        if (response.ok) {
-        toast.success('Data added successfully');
-        } else {
-          toast.error('Failed to add data');
-        }
-      }).catch(error => {
-        toast.error('Error:', error);
+          range: RANGE,
+          majorDimension: 'ROWS',
+          values: [
+            [
+              formData.Counsellor,
+              formData.Candidate,
+              formData.Status,
+              formData.Reason,
+              formData.IDCcertificate,
+              formData.DikshaName1,
+              formData.DikshaName2,
+            ],
+          ],
+        }),
       });
-      
+  
+      if (response.ok) {
+        toast.success('Data added successfully');
+        resetFields(); // Reset fields on successful submission
+        setIsAdded(true);
+      } else {
+        toast.error('Failed to add data');
+      }
+    } catch (error) {
+      toast.error('Error: ' + error.message);
+    }
   };
 
   const handleSubmit = () => {
@@ -72,8 +95,8 @@ const Form = () => {
       <div className="mb-4">
         <label className="block text-gray-700">Counsellor's Name</label>
         <select
-          value={counsellorName}
-          onChange={(e) => setCounsellorName(e.target.value)}
+          value={Counsellor}
+          onChange={(e) => setCounsellor(e.target.value)}
           className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
         >
           <option value="">Select Counsellor</option>
@@ -86,8 +109,8 @@ const Form = () => {
         <label className="block text-gray-700">{`Candidate Name-${candidateIndex}`}</label>
         <input
           type="text"
-          value={candidateName}
-          onChange={(e) => setCandidateName(e.target.value)}
+          value={Candidate}
+          onChange={(e) => setCandidate(e.target.value)}
           className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
         />
       </div>
@@ -95,7 +118,7 @@ const Form = () => {
       <div className="mb-4">
         <label className="block text-gray-700">Status</label>
         <select
-          value={status}
+          value={Status}
           onChange={(e) => setStatus(e.target.value)}
           className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
         >
@@ -105,24 +128,24 @@ const Form = () => {
         </select>
       </div>
 
-      {status === 'Hold' && (
+      {Status === 'Hold' && (
         <div className="mb-4">
           <label className="block text-gray-700">Give Reasons for Hold</label>
           <textarea
-            value={reasonForHold}
-            onChange={(e) => setReasonForHold(e.target.value)}
+            value={Reason}
+            onChange={(e) => setReason(e.target.value)}
             className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
           />
         </div>
       )}
 
-      {status === 'Recommended' && (
+      {Status === 'Recommended' && (
         <>
           <div className="mb-4">
             <label className="block text-gray-700">IDC Certificate Uploaded</label>
             <select
-              value={idcCertificate}
-              onChange={(e) => setIdcCertificate(e.target.value)}
+              value={IDCcertificate}
+              onChange={(e) => setIDCcertificate(e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             >
               <option value="">Select</option>
@@ -134,7 +157,7 @@ const Form = () => {
             <label className="block text-gray-700">Suggested Diksha Name-1</label>
             <input
               type="text"
-              value={dikshaName1}
+              value={DikshaName1}
               onChange={(e) => setDikshaName1(e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
@@ -143,7 +166,7 @@ const Form = () => {
             <label className="block text-gray-700">Suggested Diksha Name-2</label>
             <input
               type="text"
-              value={dikshaName2}
+              value={DikshaName2}
               onChange={(e) => setDikshaName2(e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
