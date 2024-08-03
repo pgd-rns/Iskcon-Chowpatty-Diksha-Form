@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
 
 const Form = () => {
   const [Counsellor, setCounsellor] = useState('');
@@ -12,6 +14,8 @@ const Form = () => {
   const [DikshaName2, setDikshaName2] = useState('');
   const [candidateIndex, setCandidateIndex] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+
+  const navigate = useNavigate();
 
   const resetFields = () => {
     setCandidate('');
@@ -34,10 +38,8 @@ const Form = () => {
       DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
     };
 
-    console.log(formData);
-    
-
- await fetch('https://script.google.com/macros/s/AKfycbyDEy-Idf7TuuaxHV823wSjy0GzQZMeThPDgTVl34Wyc9v8M4KWYhptUYDD2bHQwhMvig/exec', {
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwWiiGykf54D-Dea51Rd_dnfh6udYgf8Ru7J2aUM27QWAhp02tnLjQ326PWqLyi3KBDPQ/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -46,23 +48,46 @@ const Form = () => {
           formData
         }),
         mode: "no-cors",
-      }).then(response => {
-        if (response.ok) {
-        toast.success('Data added successfully');
-        } else {
-          toast.error('Failed to add data');
-        }
-      }).catch(error => {
-        toast.error('Error:', error);
       });
-      
+      toast.success(`Data added successfully ${response.status}`);
+      setIsAdded(true);
+      resetFields();
+      setCandidateIndex(candidateIndex + 1);
+    } catch (error) {
+      toast.error('Error:', error);
+    }
   };
 
-  const handleSubmit = () => {
-    if (!isAdded) {
+  const handleSubmit = async() => {
+    if (isAdded) {
       handleAdd();
     } else {
-      toast.success('Form submitted successfully');
+        const formData = {
+            Counsellor,
+            Candidate,
+            Status,
+            Reason: Status === 'Hold' ? Reason : '',
+            IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
+            DikshaName1: Status === 'Recommended' ? DikshaName1 : '',
+            DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
+          };
+      
+          try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwWiiGykf54D-Dea51Rd_dnfh6udYgf8Ru7J2aUM27QWAhp02tnLjQ326PWqLyi3KBDPQ/exec', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                formData
+              }),
+              mode: "no-cors",
+            });
+            toast.success('Form submitted successfully');
+            navigate('/thankyou');
+          } catch (error) {
+            toast.error('Error:', error);
+          }
     }
   };
 
