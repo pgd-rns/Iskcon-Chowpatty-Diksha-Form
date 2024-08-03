@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Form = () => {
   const [counsellorName, setCounsellorName] = useState('');
@@ -33,7 +34,10 @@ const Form = () => {
       dikshaName2: status === 'Recommended' ? dikshaName2 : '',
     };
 
-    fetch('/api/proxy', {
+    console.log(formData);
+    
+
+    fetch('https://script.google.com/macros/s/AKfycbw2RUKVevo_vfs06pZkoWyDQ00xrZAFhPqtYMA3w1C-2W-OgS9kEg5hiI_BSpOs4tX5Pw/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -164,6 +168,8 @@ const Form = () => {
           Submit
         </button>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };
