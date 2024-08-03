@@ -97,15 +97,11 @@ const Form = () => {
 
       <div className="mb-4">
         <label className="block text-gray-700">Counsellor's Name</label>
-        <select
+        <input
           value={Counsellor}
           onChange={(e) => setCounsellor(e.target.value)}
           className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-        >
-          <option value="">Select Counsellor</option>
-          <option value="Counsellor1">Counsellor 1</option>
-          <option value="Counsellor2">Counsellor 2</option>
-        </select>
+       />
       </div>
 
       <div className="mb-4">
