@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Form = () => {
   const [Counsellor, setCounsellor] = useState('');
   const [Candidate, setCandidate] = useState('');
+  const [DID, setDID] = useState('');
   const [Status, setStatus] = useState('');
   const [Reason, setReason] = useState('');
   const [IDCcertificate, setIDCcertificate] = useState('');
@@ -19,6 +20,7 @@ const Form = () => {
 
   const resetFields = () => {
     setCandidate('');
+    setDID('');
     setStatus('');
     setReason('');
     setIDCcertificate('');
@@ -31,6 +33,7 @@ const Form = () => {
     const formData = {
       Counsellor,
       Candidate,
+      DID,
       Status,
       Reason: Status === 'Hold' ? Reason : '',
       IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
@@ -39,7 +42,7 @@ const Form = () => {
     };
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwWiiGykf54D-Dea51Rd_dnfh6udYgf8Ru7J2aUM27QWAhp02tnLjQ326PWqLyi3KBDPQ/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -65,6 +68,7 @@ const Form = () => {
         const formData = {
             Counsellor,
             Candidate,
+            DID,
             Status,
             Reason: Status === 'Hold' ? Reason : '',
             IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
@@ -73,7 +77,7 @@ const Form = () => {
           };
       
           try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwWiiGykf54D-Dea51Rd_dnfh6udYgf8Ru7J2aUM27QWAhp02tnLjQ326PWqLyi3KBDPQ/exec', {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -110,6 +114,16 @@ const Form = () => {
           type="text"
           value={Candidate}
           onChange={(e) => setCandidate(e.target.value)}
+          className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">DID</label>
+        <input
+          type="number"
+          value={DID}
+          onChange={(e) => setDID(e.target.value)}
           className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
         />
       </div>
