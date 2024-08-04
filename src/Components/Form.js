@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom'; 
-
+import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const counsellorOptions = [
   "Abhirāma Dāsa",
@@ -114,86 +113,108 @@ const counsellorOptions = [
 ];
 
 const Form = () => {
-  const [forms, setForms] = useState([{
-    Counsellor: '',
-    Candidate: '',
-    DID: '',
-    Status: '',
-    Reason: '',
-    IDCcertificate: '',
-    DikshaName1: '',
-    DikshaName2: '',
-    isAdded: false,
-    isEditable: true,
-  }]);
+  const [forms, setForms] = useState([
+    {
+      Counsellor: "",
+      Candidate: "",
+      DID: "",
+      Status: "",
+      Reason: "",
+      IDCcertificate: "",
+      DikshaName1: "",
+      DikshaName2: "",
+      isAdded: false,
+      isEditable: true,
+    },
+  ]);
 
   const navigate = useNavigate();
 
- 
   const resetFields = (counsellor) => ({
-    Counsellor: counsellor,  // Keep the counsellor from the previous form
-    Candidate: '',
-    DID: '',
-    Status: '',
-    Reason: '',
-    IDCcertificate: '',
-    DikshaName1: '',
-    DikshaName2: '',
+    Counsellor: counsellor,
+    Candidate: "",
+    DID: "",
+    Status: "",
+    Reason: "",
+    IDCcertificate: "",
+    DikshaName1: "",
+    DikshaName2: "",
     isAdded: false,
     isEditable: true,
   });
 
-  const handleAdd = async(index) => {
+  const validateForm = (form) => {
+    if (!form.Counsellor || !form.Candidate || !form.DID || !form.Status) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleAdd = async (index) => {
     const formData = forms[index];
+    if (!validateForm(formData)) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
 
     try {
-     await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          formData
-        }),
-        mode: "no-cors",
-      });
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            formData,
+          }),
+          mode: "no-cors",
+        }
+      );
       toast.success(`Member added successfully`);
-      setForms(prevForms => {
+      setForms((prevForms) => {
         const updatedForms = [...prevForms];
         updatedForms[index].isAdded = true;
         updatedForms[index].isEditable = false;
-        const lastCounsellor = prevForms[prevForms.length - 1].Counsellor;  // Keep the counsellor name
+        const lastCounsellor = prevForms[prevForms.length - 1].Counsellor;
         updatedForms.push(resetFields(lastCounsellor));
         return updatedForms;
       });
     } catch (error) {
-      toast.error('Error:', error);
+      toast.error("Error:", error);
     }
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const formData = forms[forms.length - 1];
+    if (!validateForm(formData)) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
 
     try {
-     await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          formData
-        }),
-        mode: "no-cors",
-      });
-      toast.success('Form submitted successfully');
-      navigate('/thankyou');
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            formData,
+          }),
+          mode: "no-cors",
+        }
+      );
+      toast.success("Form submitted successfully");
+      navigate("/thankyou");
     } catch (error) {
-      toast.error('Error:', error);
+      toast.error("Error:", error);
     }
   };
 
   const handleChange = (index, field, value) => {
-    setForms(prevForms => {
+    setForms((prevForms) => {
       const updatedForms = [...prevForms];
       updatedForms[index][field] = value;
       return updatedForms;
@@ -202,32 +223,50 @@ const Form = () => {
 
   return (
     <div className="max-w-full mx-auto sm:p-6 mt-10 p-5 border rounded shadow-lg bg-white">
-      <h1 className="text-2xl font-bold mb-6 text-center">Member Form Submission</h1>
-      
-      {forms.map((form, index) => (
-        <div key={index} className={`flex flex-col lg:flex-row lg:space-x-4 ${!form.isEditable ? 'opacity-50 pointer-events-none' : ''}`}>
-          <div className="mb-4 flex-1 lg:w-1/5">
-            <label className="block text-gray-700">Counsellor's Name</label>
-            <select
-              value={form.Counsellor}
-              onChange={(e) => handleChange(index, 'Counsellor', e.target.value)}
-              className="form-select mt-1 block w-full"
-            >
-            <option value="">Select Counsellor</option>
-              {counsellorOptions.map((name, i) => (
+      <h1 className="text-2xl font-bold mb-6 text-center">
+        Member Form Submission
+      </h1>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Counsellor's Name</label>
+        <select
+          value={forms[0].Counsellor}
+          onChange={(e) => {
+            const newCounsellor = e.target.value;
+            setForms((prevForms) => {
+              const updatedForms = prevForms.map((form) => ({
+                ...form,
+                Counsellor: newCounsellor,
+              }));
+              return updatedForms;
+            });
+          }}
+          className="form-select mt-1 block w-full"
+        >
+          <option value="">Select Counsellor</option>
+          {counsellorOptions.map((name, i) => (
             <option key={i} value={name}>
               {name}
             </option>
-            ))}
-            </select>
-          </div>
+          ))}
+        </select>
+      </div>
 
+      {forms.map((form, index) => (
+        <div
+          key={index}
+          className={`flex flex-col lg:flex-row lg:space-x-4 ${
+            !form.isEditable ? "opacity-50 pointer-events-none" : ""
+          }`}
+        >
           <div className="mb-4 flex-1 lg:w-1/5">
-            <label className="block text-gray-700">{`Candidate Name-${index + 1}`}</label>
+            <label className="block text-gray-700">{`Candidate Name-${
+              index + 1
+            }`}</label>
             <input
               type="text"
               value={form.Candidate}
-              onChange={(e) => handleChange(index, 'Candidate', e.target.value)}
+              onChange={(e) => handleChange(index, "Candidate", e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
           </div>
@@ -237,7 +276,7 @@ const Form = () => {
             <input
               type="text"
               value={form.DID}
-              onChange={(e) => handleChange(index, 'DID', e.target.value)}
+              onChange={(e) => handleChange(index, "DID", e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
           </div>
@@ -246,7 +285,7 @@ const Form = () => {
             <label className="block text-gray-700">Status</label>
             <select
               value={form.Status}
-              onChange={(e) => handleChange(index, 'Status', e.target.value)}
+              onChange={(e) => handleChange(index, "Status", e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             >
               <option value="">Select Status</option>
@@ -255,24 +294,30 @@ const Form = () => {
             </select>
           </div>
 
-          {form.Status === 'Hold' && (
+          {form.Status === "Hold" && (
             <div className="mb-4 flex-1 lg:w-1/5">
-              <label className="block text-gray-700">Give Reasons for Hold</label>
+              <label className="block text-gray-700">
+                Give Reasons for Hold
+              </label>
               <textarea
                 value={form.Reason}
-                onChange={(e) => handleChange(index, 'Reason', e.target.value)}
+                onChange={(e) => handleChange(index, "Reason", e.target.value)}
                 className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
               />
             </div>
           )}
 
-          {form.Status === 'Recommended' && (
+          {form.Status === "Recommended" && (
             <>
               <div className="mb-4 flex-1 lg:w-1/5">
-                <label className="block text-gray-700">IDC Certificate Uploaded</label>
+                <label className="block text-gray-700">
+                  IDC Certificate Uploaded
+                </label>
                 <select
                   value={form.IDCcertificate}
-                  onChange={(e) => handleChange(index, 'IDCcertificate', e.target.value)}
+                  onChange={(e) =>
+                    handleChange(index, "IDCcertificate", e.target.value)
+                  }
                   className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
                 >
                   <option value="">Select</option>
@@ -281,30 +326,37 @@ const Form = () => {
                 </select>
               </div>
               <div className="mb-4 flex-1 lg:w-1/5">
-                <label className="block text-gray-700">Suggested Diksha Name-1</label>
+                <label className="block text-gray-700">
+                  Suggested Diksha Name-1
+                </label>
                 <input
                   type="text"
                   value={form.DikshaName1}
-                  onChange={(e) => handleChange(index, 'DikshaName1', e.target.value)}
+                  onChange={(e) =>
+                    handleChange(index, "DikshaName1", e.target.value)
+                  }
                   className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
                 />
               </div>
               <div className="mb-4 flex-1 lg:w-1/5">
-                <label className="block text-gray-700">Suggested Diksha Name-2</label>
+                <label className="block text-gray-700">
+                  Suggested Diksha Name-2
+                </label>
                 <input
                   type="text"
                   value={form.DikshaName2}
-                  onChange={(e) => handleChange(index, 'DikshaName2', e.target.value)}
+                  onChange={(e) =>
+                    handleChange(index, "DikshaName2", e.target.value)
+                  }
                   className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
                 />
               </div>
             </>
           )}
-          
-          <div className="w-full lg:w-auto flex justify-center lg:justify-start">
+          <div className="flex justify-center lg:justify-end py-1 mb-5 mt-5">
             <button
-              onClick={() => handleAdd(index)}
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg mb-4 transition duration-300 ease-in-out hover:bg-blue-700"
+              onClick={() => handleAdd(forms.length - 1)}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-blue-700"
             >
               Add Member
             </button>
