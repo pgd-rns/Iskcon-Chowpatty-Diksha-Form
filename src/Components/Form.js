@@ -16,7 +16,6 @@ const counsellorOptions = [
   "Bāla Svarupa Dāsa",
   "Bālajī Govinda Dāsa",
   "Balārāma Ānanda Dāsa",
-  "Bhakta Carana Dāsa",
   "Bṛhad Bhāgavata Dāsa",
   "Dāmodara Dāsa",
   "Dāmodara Sakhā Dāsa",
@@ -31,7 +30,6 @@ const counsellorOptions = [
   "Gaurāṅga Priyā Dāsa",
   "Girirāja Dāsa",
   "Gopāla Kṛṣṇa Dāsa",
-  "Haladhara Priyā Dāsa",
   "Hanumānā Dāsa",
   "Hare Kṛṣṇa Dāsa",
   "Haribol Ānanda Dāsa",
@@ -40,7 +38,6 @@ const counsellorOptions = [
   "Jāhnavā Priyā Devi Dāsī",
   "Jaya Jagadīśa Dāsa",
   "Jaya Kṛṣṇa Dāsa",
-  "Kānāi Thākur Dāsa",
   "Kṛṣṇa Caitanya Dāsa",
   "Kṛṣṇa Candra Dāsa",
   "Kṛṣṇa Gaura Dāsa",
@@ -52,7 +49,6 @@ const counsellorOptions = [
   "Mādhavānanda Dāsa",
   "Mahājana Dāsa",
   "Mukunda Dāsa",
-  "Mukundānanda Dāsa",
   "Murālīdhara Dāsa",
   "Murāri Priyā Devi Dāsī",
   "Nanda Dulāla Dāsa",
@@ -63,8 +59,6 @@ const counsellorOptions = [
   "Paramahaṃsa Dāsa",
   "Pradyumna Miśrā Dāsa",
   "Prahlāda Priyā Dāsa",
-  "Prakāśānanda Dāsa",
-  "Prāṇeśvara Dāsa",
   "Puruṣottama Dāsa",
   "Rādhā Dāmodara Dāsa",
   "Rādhā Kānta Dāsa",
@@ -84,7 +78,6 @@ const counsellorOptions = [
   "Śacī Jīvana Dāsa",
   "Sahadeva Dāsa",
   "Sanātana Prāṇa Dāsa",
-  "Śaṅkara Paṇḍita Dāsa",
   "Satsvarūpa Dāsa",
   "Satyānanda Dāsa",
   "Satyanārāyaṇa Dāsa",
@@ -224,7 +217,7 @@ const Form = () => {
   return (
     <div className="max-w-full mx-auto sm:p-6 mt-10 p-5 border rounded shadow-lg bg-white">
       <h1 className="text-2xl font-bold mb-6 text-center">
-        Member Form Submission
+        Harinam Diksha List Review - Form
       </h1>
 
       <div className="mb-4">

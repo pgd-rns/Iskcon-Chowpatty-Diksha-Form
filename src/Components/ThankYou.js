@@ -14,11 +14,11 @@ const ThankYou = () => {
           We appreciate your input and will get back to you shortly.
         </p>
         <div className="text-center">
-          <Link to="/">
-            <button className="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 transition duration-300 ease-in-out">
-              Go Back
-            </button>
-          </Link>
+        <Link to="/">
+            <div className="px-6 py-2 text-black text-[15px] underline  ">
+             click to submit one more form
+            </div>
+            </Link>
         </div>
       </div>
     </div>
