@@ -129,7 +129,9 @@ const Form = () => {
 
   const navigate = useNavigate();
 
-  const resetFields = () => ({
+ 
+  const resetFields = (counsellor) => ({
+    Counsellor: counsellor,  // Keep the counsellor from the previous form
     Candidate: '',
     DID: '',
     Status: '',
@@ -160,7 +162,8 @@ const Form = () => {
         const updatedForms = [...prevForms];
         updatedForms[index].isAdded = true;
         updatedForms[index].isEditable = false;
-        updatedForms.push(resetFields());
+        const lastCounsellor = prevForms[prevForms.length - 1].Counsellor;  // Keep the counsellor name
+        updatedForms.push(resetFields(lastCounsellor));
         return updatedForms;
       });
     } catch (error) {
