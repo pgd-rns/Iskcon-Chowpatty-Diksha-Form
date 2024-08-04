@@ -130,7 +130,6 @@ const Form = () => {
   const navigate = useNavigate();
 
   const resetFields = () => ({
-    Counsellor: '',
     Candidate: '',
     DID: '',
     Status: '',
