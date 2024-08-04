@@ -87,7 +87,6 @@ const counsellorOptions = [
   "Śrīdāmā Dāsa",
   "Śrīdāmā Sakhā Dāsa",
   "Śrīvāsa Ṭhākura Dāsa",
-  "Sundara Caitanya Dāsa",
   "Sundara Rūpa Dāsa",
   "Suresh Sampath Chari",
   "Śyāma Kuṇḍa Dāsa",
