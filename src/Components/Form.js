@@ -1,48 +1,152 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'; 
 
+
+const counsellorOptions = [
+  "Abhirāma Dāsa",
+  "Adhokṣaja Dāsa",
+  "Ādi Keśava Dāsa",
+  "Ānanda Gopāla Dāsa",
+  "Ānanda Rāma Dāsa",
+  "Ānandinī Sundarī Devi Dāsī",
+  "Anupama Dāsa",
+  "Arvinda Mādhava Dāsa",
+  "Bāla Kṛṣṇa Dāsa",
+  "Bāla Svarupa Dāsa",
+  "Bālajī Govinda Dāsa",
+  "Balārāma Ānanda Dāsa",
+  "Bhakta Carana Dāsa",
+  "Bṛhad Bhāgavata Dāsa",
+  "Dāmodara Dāsa",
+  "Dāmodara Sakhā Dāsa",
+  "Dayālā Candra Dāsa",
+  "Dayānidhi Dāsa",
+  "Dharmarāja Dāsa",
+  "Dvārakādhiṣa Dāsa",
+  "Gaura Gopāla Dāsa",
+  "Gaura Hari Dāsa",
+  "Gaura Naṭarāja Dāsa",
+  "Gaurāṅga Dāsa",
+  "Gaurāṅga Priyā Dāsa",
+  "Girirāja Dāsa",
+  "Gopāla Kṛṣṇa Dāsa",
+  "Haladhara Priyā Dāsa",
+  "Hanumānā Dāsa",
+  "Hare Kṛṣṇa Dāsa",
+  "Haribol Ānanda Dāsa",
+  "Hṛṣīkeśa Ānanda Dāsa",
+  "Jagannātha Vallabha Dāsa",
+  "Jāhnavā Priyā Devi Dāsī",
+  "Jaya Jagadīśa Dāsa",
+  "Jaya Kṛṣṇa Dāsa",
+  "Kānāi Thākur Dāsa",
+  "Kṛṣṇa Caitanya Dāsa",
+  "Kṛṣṇa Candra Dāsa",
+  "Kṛṣṇa Gaura Dāsa",
+  "Kṛṣṇa Gopāla Dāsa",
+  "Kṛṣṇa Nāma Dāsa",
+  "Līlā Śuka Dāsa",
+  "Madana Murāri Dāsa",
+  "Mādhava Carana Dāsa",
+  "Mādhavānanda Dāsa",
+  "Mahājana Dāsa",
+  "Mukunda Dāsa",
+  "Mukundānanda Dāsa",
+  "Murālīdhara Dāsa",
+  "Murāri Priyā Devi Dāsī",
+  "Nanda Dulāla Dāsa",
+  "Navina Gopāla Dāsa",
+  "Nitya Kṛṣṇa Dāsa",
+  "Nityānanda Carana Dāsa",
+  "Pāṇ̣ḍūraṅga Dāsa",
+  "Paramahaṃsa Dāsa",
+  "Pradyumna Miśrā Dāsa",
+  "Prahlāda Priyā Dāsa",
+  "Prakāśānanda Dāsa",
+  "Prāṇeśvara Dāsa",
+  "Puruṣottama Dāsa",
+  "Rādhā Dāmodara Dāsa",
+  "Rādhā Kānta Dāsa",
+  "Rādhā Pati  Dāsa",
+  "Rādhikā Ramaṇa Dāsa",
+  "Rāma Govinda Dāsa",
+  "Rāma Svarūpa Dāsa",
+  "Rāmārāja Dāsa",
+  "Rāsa Gopāla  Dāsa",
+  "Rāsa Parāyaṇa Dāsa",
+  "Rāsa Vigraha Dāsa",
+  "Rasārāja Gopāla Dāsa",
+  "Rasikācārya Dāsa",
+  "Rohiṇī Nandana Dāsa",
+  "Rohinī̄ Priyā Dāsa",
+  "Rudranātha Dāsa",
+  "Śacī Jīvana Dāsa",
+  "Sahadeva Dāsa",
+  "Sanātana Prāṇa Dāsa",
+  "Śaṅkara Paṇḍita Dāsa",
+  "Satsvarūpa Dāsa",
+  "Satyānanda Dāsa",
+  "Satyanārāyaṇa Dāsa",
+  "Siddha Svarūpa Dāsa",
+  "Siddheśvara Dāsa",
+  "Sītā Nātha Dāsa",
+  "Śrīdāmā Dāsa",
+  "Śrīdāmā Sakhā Dāsa",
+  "Śrīvāsa Ṭhākura Dāsa",
+  "Sundara Caitanya Dāsa",
+  "Sundara Rūpa Dāsa",
+  "Suresh Sampath Chari",
+  "Śyāma Kuṇḍa Dāsa",
+  "Tulāsī Mañjarī Devi Dāsī",
+  "Umeśa Candra Dāsa",
+  "Upendra Dāsa",
+  "Vallabha Caitanya Dāsa",
+  "Vamsi Gopāla Dāsa",
+  "Veda Māta Devi Dāsī",
+  "Vijaya Govinda Dāsa",
+  "Viśvarūpa Dāsa",
+  "Vraja Mohana Dāsa",
+  "Vraja Vallabha Dāsa",
+  "Yudhiṣṭhira Dāsa",
+  "Yugāvatāra Dāsa",
+];
+
 const Form = () => {
-  const [Counsellor, setCounsellor] = useState('');
-  const [Candidate, setCandidate] = useState('');
-  const [DID, setDID] = useState('');
-  const [Status, setStatus] = useState('');
-  const [Reason, setReason] = useState('');
-  const [IDCcertificate, setIDCcertificate] = useState('');
-  const [DikshaName1, setDikshaName1] = useState('');
-  const [DikshaName2, setDikshaName2] = useState('');
-  const [candidateIndex, setCandidateIndex] = useState(1);
-  const [isAdded, setIsAdded] = useState(false);
+  const [forms, setForms] = useState([{
+    Counsellor: '',
+    Candidate: '',
+    DID: '',
+    Status: '',
+    Reason: '',
+    IDCcertificate: '',
+    DikshaName1: '',
+    DikshaName2: '',
+    isAdded: false,
+    isEditable: true,
+  }]);
 
   const navigate = useNavigate();
 
-  const resetFields = () => {
-    setCandidate('');
-    setDID('');
-    setStatus('');
-    setReason('');
-    setIDCcertificate('');
-    setDikshaName1('');
-    setDikshaName2('');
-    setIsAdded(false);
-  };
+  const resetFields = () => ({
+    Counsellor: '',
+    Candidate: '',
+    DID: '',
+    Status: '',
+    Reason: '',
+    IDCcertificate: '',
+    DikshaName1: '',
+    DikshaName2: '',
+    isAdded: false,
+    isEditable: true,
+  });
 
-  const handleAdd = async() => {
-    const formData = {
-      Counsellor,
-      Candidate,
-      DID,
-      Status,
-      Reason: Status === 'Hold' ? Reason : '',
-      IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
-      DikshaName1: Status === 'Recommended' ? DikshaName1 : '',
-      DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
-    };
+  const handleAdd = async(index) => {
+    const formData = forms[index];
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
+     await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -53,154 +157,163 @@ const Form = () => {
         mode: "no-cors",
       });
       toast.success(`Member added successfully`);
-      setIsAdded(true);
-      resetFields();
-      setCandidateIndex(candidateIndex + 1);
+      setForms(prevForms => {
+        const updatedForms = [...prevForms];
+        updatedForms[index].isAdded = true;
+        updatedForms[index].isEditable = false;
+        updatedForms.push(resetFields());
+        return updatedForms;
+      });
     } catch (error) {
       toast.error('Error:', error);
     }
   };
 
   const handleSubmit = async() => {
-    if (isAdded) {
-      handleAdd();
-    } else {
-        const formData = {
-            Counsellor,
-            Candidate,
-            DID,
-            Status,
-            Reason: Status === 'Hold' ? Reason : '',
-            IDCcertificate: Status === 'Recommended' ? IDCcertificate : '',
-            DikshaName1: Status === 'Recommended' ? DikshaName1 : '',
-            DikshaName2: Status === 'Recommended' ? DikshaName2 : '',
-          };
-      
-          try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                formData
-              }),
-              mode: "no-cors",
-            });
-            toast.success('Form submitted successfully');
-            navigate('/thankyou');
-          } catch (error) {
-            toast.error('Error:', error);
-          }
+    const formData = forms[forms.length - 1];
+
+    try {
+     await fetch('https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          formData
+        }),
+        mode: "no-cors",
+      });
+      toast.success('Form submitted successfully');
+      navigate('/thankyou');
+    } catch (error) {
+      toast.error('Error:', error);
     }
   };
 
+  const handleChange = (index, field, value) => {
+    setForms(prevForms => {
+      const updatedForms = [...prevForms];
+      updatedForms[index][field] = value;
+      return updatedForms;
+    });
+  };
+
   return (
-    <div className="max-w-md mx-auto sm:p-6 mt-10 p-5 border rounded shadow-lg bg-white">
-      <h1 className="text-2xl font-bold mb-6 text-center">Form</h1>
-
-      <div className="mb-4">
-        <label className="block text-gray-700">Counsellor's Name</label>
-        <input
-          value={Counsellor}
-          onChange={(e) => setCounsellor(e.target.value)}
-          className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-       />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700">{`Candidate Name-${candidateIndex}`}</label>
-        <input
-          type="text"
-          value={Candidate}
-          onChange={(e) => setCandidate(e.target.value)}
-          className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700">DID</label>
-        <input
-          type="number"
-          value={DID}
-          onChange={(e) => setDID(e.target.value)}
-          className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700">Status</label>
-        <select
-          value={Status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-        >
-          <option value="">Select Status</option>
-          <option value="Recommended">Recommended</option>
-          <option value="Hold">Hold</option>
-        </select>
-      </div>
-
-      {Status === 'Hold' && (
-        <div className="mb-4">
-          <label className="block text-gray-700">Give Reasons for Hold</label>
-          <textarea
-            value={Reason}
-            onChange={(e) => setReason(e.target.value)}
-            className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-          />
-        </div>
-      )}
-
-      {Status === 'Recommended' && (
-        <>
-          <div className="mb-4">
-            <label className="block text-gray-700">IDC Certificate Uploaded</label>
+    <div className="max-w-full mx-auto sm:p-6 mt-10 p-5 border rounded shadow-lg bg-white">
+      <h1 className="text-2xl font-bold mb-6 text-center">Member Form Submission</h1>
+      
+      {forms.map((form, index) => (
+        <div key={index} className={`flex flex-col lg:flex-row lg:space-x-4 ${!form.isEditable ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className="mb-4 flex-1 lg:w-1/5">
+            <label className="block text-gray-700">Counsellor's Name</label>
             <select
-              value={IDCcertificate}
-              onChange={(e) => setIDCcertificate(e.target.value)}
-              className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+              value={form.Counsellor}
+              onChange={(e) => handleChange(index, 'Counsellor', e.target.value)}
+              className="form-select mt-1 block w-full"
             >
-              <option value="">Select</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+            <option value="">Select Counsellor</option>
+              {counsellorOptions.map((name, i) => (
+            <option key={i} value={name}>
+              {name}
+            </option>
+            ))}
             </select>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Suggested Diksha Name-1</label>
+
+          <div className="mb-4 flex-1 lg:w-1/5">
+            <label className="block text-gray-700">{`Candidate Name-${index + 1}`}</label>
             <input
               type="text"
-              value={DikshaName1}
-              onChange={(e) => setDikshaName1(e.target.value)}
+              value={form.Candidate}
+              onChange={(e) => handleChange(index, 'Candidate', e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Suggested Diksha Name-2</label>
+
+          <div className="mb-4 flex-1 lg:w-1/5">
+            <label className="block text-gray-700">DID</label>
             <input
               type="text"
-              value={DikshaName2}
-              onChange={(e) => setDikshaName2(e.target.value)}
+              value={form.DID}
+              onChange={(e) => handleChange(index, 'DID', e.target.value)}
               className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
             />
           </div>
-        </>
-      )}
 
-      <div>
-        <button
-          onClick={handleAdd}
-          className="bg-blue-500 text-white flex m-auto px-8 py-2 rounded-lg mb-4 transition duration-300 ease-in-out hover:bg-blue-700"
-        >
-          Add Member
-        </button>
-        <li className="text-sm text-center">Note: Click on Add button for multiple entries</li>
-      </div>
+          <div className="mb-4 flex-1 lg:w-1/5">
+            <label className="block text-gray-700">Status</label>
+            <select
+              value={form.Status}
+              onChange={(e) => handleChange(index, 'Status', e.target.value)}
+              className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+            >
+              <option value="">Select Status</option>
+              <option value="Recommended">Recommended</option>
+              <option value="Hold">Hold</option>
+            </select>
+          </div>
 
-      <div>
+          {form.Status === 'Hold' && (
+            <div className="mb-4 flex-1 lg:w-1/5">
+              <label className="block text-gray-700">Give Reasons for Hold</label>
+              <textarea
+                value={form.Reason}
+                onChange={(e) => handleChange(index, 'Reason', e.target.value)}
+                className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+              />
+            </div>
+          )}
+
+          {form.Status === 'Recommended' && (
+            <>
+              <div className="mb-4 flex-1 lg:w-1/5">
+                <label className="block text-gray-700">IDC Certificate Uploaded</label>
+                <select
+                  value={form.IDCcertificate}
+                  onChange={(e) => handleChange(index, 'IDCcertificate', e.target.value)}
+                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+                >
+                  <option value="">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div className="mb-4 flex-1 lg:w-1/5">
+                <label className="block text-gray-700">Suggested Diksha Name-1</label>
+                <input
+                  type="text"
+                  value={form.DikshaName1}
+                  onChange={(e) => handleChange(index, 'DikshaName1', e.target.value)}
+                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+                />
+              </div>
+              <div className="mb-4 flex-1 lg:w-1/5">
+                <label className="block text-gray-700">Suggested Diksha Name-2</label>
+                <input
+                  type="text"
+                  value={form.DikshaName2}
+                  onChange={(e) => handleChange(index, 'DikshaName2', e.target.value)}
+                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+                />
+              </div>
+            </>
+          )}
+          
+          <div className="w-full lg:w-auto flex justify-center lg:justify-start">
+            <button
+              onClick={() => handleAdd(index)}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg mb-4 transition duration-300 ease-in-out hover:bg-blue-700"
+            >
+              Add Member
+            </button>
+          </div>
+        </div>
+      ))}
+
+      <div className="flex justify-center mt-8">
         <button
           onClick={handleSubmit}
-          className="bg-green-500 text-white flex m-auto px-10 py-2 mt-8 rounded transition duration-300 ease-in-out hover:bg-green-700"
+          className="bg-green-500 text-white px-8 py-2 rounded transition duration-300 ease-in-out hover:bg-green-700"
         >
           Submit
         </button>
