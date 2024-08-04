@@ -16,7 +16,7 @@ const ThankYou = () => {
         <div className="text-center">
           <Link to="/">
             <button className="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 transition duration-300 ease-in-out">
-              Go to Home
+              Go Back
             </button>
           </Link>
         </div>

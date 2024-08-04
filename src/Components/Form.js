@@ -241,7 +241,7 @@ const Form = () => {
               return updatedForms;
             });
           }}
-          className="form-select mt-1 block w-full"
+          className="form-select mt-1 py-2 px-4 block w-80 bg-gray-200"
         >
           <option value="">Select Counsellor</option>
           {counsellorOptions.map((name, i) => (
