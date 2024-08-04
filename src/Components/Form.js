@@ -52,7 +52,7 @@ const Form = () => {
         }),
         mode: "no-cors",
       });
-      toast.success(`Data added successfully ${response.status}`);
+      toast.success(`Member added successfully`);
       setIsAdded(true);
       resetFields();
       setCandidateIndex(candidateIndex + 1);
@@ -192,7 +192,7 @@ const Form = () => {
           onClick={handleAdd}
           className="bg-blue-500 text-white flex m-auto px-8 py-2 rounded-lg mb-4 transition duration-300 ease-in-out hover:bg-blue-700"
         >
-          Add
+          Add Member
         </button>
         <li className="text-sm text-center">Note: Click on Add button for multiple entries</li>
       </div>
