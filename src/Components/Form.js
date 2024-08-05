@@ -135,19 +135,8 @@ const Form = () => {
     isEditable: true,
   });
 
-  const validateForm = (form) => {
-    if (!form.Counsellor || !form.Candidate || !form.DID || !form.Status) {
-      return false;
-    }
-    return true;
-  };
-
   const handleAdd = async (index) => {
     const formData = forms[index];
-    if (!validateForm(formData)) {
-      toast.error('Please fill in all required fields.');
-      return;
-    }
 
     try {
       await fetch(
@@ -179,10 +168,6 @@ const Form = () => {
 
   const handleSubmit = async () => {
     const formData = forms[forms.length - 1];
-    if (!validateForm(formData)) {
-      toast.error('Please fill in all required fields.');
-      return;
-    }
 
     try {
       await fetch(
