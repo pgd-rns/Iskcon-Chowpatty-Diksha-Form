@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const counsellorOptions = [
@@ -111,9 +111,11 @@ const Form = () => {
       Candidate: "",
       DID: "",
       Status: "",
-      Reason: "",
+      HoldReason: "",
       IDCcertificate: "",
       OtherResons:"",
+      // DikshaName1: '',
+      // DikshaName2: '',
       isAdded: false,
       isEditable: true,
     },
@@ -126,9 +128,11 @@ const Form = () => {
     Candidate: "",
     DID: "",
     Status: "",
-    Reason: "",
+    HoldReason: "",
     IDCcertificate: "",
     OtherResons:"",
+    // DikshaName1: '',
+    // DikshaName2: '',
     isAdded: false,
     isEditable: true,
   });
@@ -137,8 +141,8 @@ const Form = () => {
     const formData = forms[index];
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbznigzhTrMUpd1BR2DPr5LxA3Uv1shkx75KLIuN2oy1ClBx-CR5YTUqu65z6jw9QTWsRg/exec",
+    const response =  await fetch(
+        "https://script.google.com/macros/s/AKfycbwJk_4UkzklYidWLtrtg8x68LG6AOLY7UrXVHTgAXk1o_wYLNB8VtvgoE2bse0jbFzpBg/exec",
         {
           method: "POST",
           headers: {
@@ -150,6 +154,12 @@ const Form = () => {
           mode: "no-cors",
         }
       );
+
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
+
+      const result = await response.text();
       toast.success(`Member added successfully`);
       setForms((prevForms) => {
         const updatedForms = [...prevForms];
@@ -160,7 +170,8 @@ const Form = () => {
         return updatedForms;
       });
     } catch (error) {
-      toast.error("Error:", error);
+      console.error("Error adding member:", error);
+      toast.error("Error adding member:", error);
     }
   };
 
@@ -169,7 +180,7 @@ const Form = () => {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbznigzhTrMUpd1BR2DPr5LxA3Uv1shkx75KLIuN2oy1ClBx-CR5YTUqu65z6jw9QTWsRg/exec",
+        "https://script.google.com/macros/s/AKfycbwJk_4UkzklYidWLtrtg8x68LG6AOLY7UrXVHTgAXk1o_wYLNB8VtvgoE2bse0jbFzpBg/exec",
         {
           method: "POST",
           headers: {
@@ -184,7 +195,7 @@ const Form = () => {
       toast.success("Form submitted successfully");
       navigate("/thankyou");
     } catch (error) {
-      toast.error("Error:", error);
+      toast.error("Error submitting form:", error);
     }
   };
 
@@ -276,8 +287,8 @@ const Form = () => {
                 Give Reasons for Hold
               </label>
               <textarea
-                value={form.Reason}
-                onChange={(e) => handleChange(index, "Reason", e.target.value)}
+                value={form.HoldReason}
+                onChange={(e) => handleChange(index, "HoldReason", e.target.value)}
                 className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
               />
             </div>
@@ -301,6 +312,24 @@ const Form = () => {
                   <option value="No">No</option>
                 </select>
               </div>
+              {/* <div className="mb-4 flex-1 lg:w-1/5">
+                <label className="block text-gray-700">Suggested Diksha Name-1</label>
+                <input
+                  type="text"
+                  value={form.DikshaName1}
+                  onChange={(e) => handleChange(index, 'DikshaName1', e.target.value)}
+                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+                />
+              </div>
+              <div className="mb-4 flex-1 lg:w-1/5">
+                <label className="block text-gray-700">Suggested Diksha Name-2</label>
+                <input
+                  type="text"
+                  value={form.DikshaName2}
+                  onChange={(e) => handleChange(index, 'DikshaName2', e.target.value)}
+                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+                />
+              </div> */}
             </>
           )}
 
@@ -336,8 +365,6 @@ const Form = () => {
           Submit
         </button>
       </div>
-
-      <ToastContainer />
     </div>
   );
 };
