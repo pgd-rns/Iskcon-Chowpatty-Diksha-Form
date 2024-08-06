@@ -113,8 +113,8 @@ const Form = () => {
       Status: "",
       Reason: "",
       IDCcertificate: "",
-      DikshaName1: "",
-      DikshaName2: "",
+      // DikshaName1: "",
+      // DikshaName2: "",
       isAdded: false,
       isEditable: true,
     },
@@ -201,7 +201,7 @@ const Form = () => {
   return (
     <div className="max-w-full mx-auto sm:p-6 mt-10 p-5 border rounded shadow-lg bg-white">
       <h1 className="text-2xl font-bold mb-6 text-center">
-        Harinam Diksha List Review - Form
+        Harinam Diksha Reviewed List - Form
       </h1>
 
       <div className="mb-4">
@@ -302,7 +302,7 @@ const Form = () => {
                   <option value="No">No</option>
                 </select>
               </div>
-              <div className="mb-4 flex-1 lg:w-1/5">
+              {/* <div className="mb-4 flex-1 lg:w-1/5">
                 <label className="block text-gray-700">
                   Suggested Diksha Name-1
                 </label>
@@ -327,7 +327,7 @@ const Form = () => {
                   }
                   className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
                 />
-              </div>
+              </div> */}
             </>
           )}
           <div className="flex justify-center lg:justify-end py-1 mb-5 mt-5">
