@@ -141,7 +141,7 @@ const Form = () => {
     const formData = forms[index];
 
     try {
-    const response =  await fetch(
+    await fetch(
         "https://script.google.com/macros/s/AKfycbwJk_4UkzklYidWLtrtg8x68LG6AOLY7UrXVHTgAXk1o_wYLNB8VtvgoE2bse0jbFzpBg/exec",
         {
           method: "POST",
@@ -159,7 +159,6 @@ const Form = () => {
       //   throw new Error(`HTTP error! Status: ${response.status}`);
       // }
 
-      const result = await response.text();
       toast.success(`Member added successfully`);
       setForms((prevForms) => {
         const updatedForms = [...prevForms];
@@ -176,22 +175,29 @@ const Form = () => {
   };
 
   const handleSubmit = async () => {
+    
     const formData = forms[forms.length - 1];
 
+    const allFieldsFilled = formData.Counsellor && formData.Candidate && formData.DID && formData.Status;
+
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbwJk_4UkzklYidWLtrtg8x68LG6AOLY7UrXVHTgAXk1o_wYLNB8VtvgoE2bse0jbFzpBg/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            formData,
-          }),
-          mode: "no-cors",
-        }
-      );
+
+      if (allFieldsFilled) {
+        await fetch(
+          "https://script.google.com/macros/s/AKfycbwJk_4UkzklYidWLtrtg8x68LG6AOLY7UrXVHTgAXk1o_wYLNB8VtvgoE2bse0jbFzpBg/exec",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              formData,
+            }),
+            mode: "no-cors",
+          }
+        );
+      }
+  
       toast.success("Form submitted successfully");
       navigate("/thankyou");
     } catch (error) {
