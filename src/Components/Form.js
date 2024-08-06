@@ -113,8 +113,7 @@ const Form = () => {
       Status: "",
       Reason: "",
       IDCcertificate: "",
-      // DikshaName1: "",
-      // DikshaName2: "",
+      OtherResons:"",
       isAdded: false,
       isEditable: true,
     },
@@ -129,8 +128,7 @@ const Form = () => {
     Status: "",
     Reason: "",
     IDCcertificate: "",
-    DikshaName1: "",
-    DikshaName2: "",
+    OtherResons:"",
     isAdded: false,
     isEditable: true,
   });
@@ -140,7 +138,7 @@ const Form = () => {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec",
+        "https://script.google.com/macros/s/AKfycbznigzhTrMUpd1BR2DPr5LxA3Uv1shkx75KLIuN2oy1ClBx-CR5YTUqu65z6jw9QTWsRg/exec",
         {
           method: "POST",
           headers: {
@@ -171,7 +169,7 @@ const Form = () => {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwA41ZKljd0LsqJ0Ro6ef1egJ5xU2NeyuIWkLt1mDEq5S4LldYMEyBsTHXJdwtOUm1I/exec",
+        "https://script.google.com/macros/s/AKfycbznigzhTrMUpd1BR2DPr5LxA3Uv1shkx75KLIuN2oy1ClBx-CR5YTUqu65z6jw9QTWsRg/exec",
         {
           method: "POST",
           headers: {
@@ -268,6 +266,7 @@ const Form = () => {
               <option value="">Select Status</option>
               <option value="Recommended">Recommended</option>
               <option value="Hold">Hold</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
@@ -302,34 +301,22 @@ const Form = () => {
                   <option value="No">No</option>
                 </select>
               </div>
-              {/* <div className="mb-4 flex-1 lg:w-1/5">
-                <label className="block text-gray-700">
-                  Suggested Diksha Name-1
-                </label>
-                <input
-                  type="text"
-                  value={form.DikshaName1}
-                  onChange={(e) =>
-                    handleChange(index, "DikshaName1", e.target.value)
-                  }
-                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-                />
-              </div>
-              <div className="mb-4 flex-1 lg:w-1/5">
-                <label className="block text-gray-700">
-                  Suggested Diksha Name-2
-                </label>
-                <input
-                  type="text"
-                  value={form.DikshaName2}
-                  onChange={(e) =>
-                    handleChange(index, "DikshaName2", e.target.value)
-                  }
-                  className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
-                />
-              </div> */}
             </>
           )}
+
+                {form.Status === "Other" && (
+            <div className="mb-4 flex-1 lg:w-1/5">
+              <label className="block text-gray-700">
+                Give Reasons 
+              </label>
+              <textarea
+                value={form.OtherResons}
+                onChange={(e) => handleChange(index, "OtherResons", e.target.value)}
+                className="w-full border px-3 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-100"
+              />
+            </div>
+          )}
+
           <div className="flex justify-center lg:justify-end py-1 mb-5 mt-5">
             <button
               onClick={() => handleAdd(forms.length - 1)}
