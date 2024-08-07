@@ -180,11 +180,6 @@ const Form = () => {
   const handleSubmit = async () => {
     const formData = forms[forms.length - 1];
     
-    if (!formData.Counsellor || !formData.Candidate || !formData.DID || !formData.Status) {
-      toast.error("Please fill out all required fields.");
-      return;
-    }
-
     const allFieldsFilled = formData.Counsellor && formData.Candidate && formData.DID && formData.Status;
 
     try {
